@@ -1,6 +1,6 @@
 // js/main.js
-import { loadCharacterData } from './data.js';
-import { initUI } from './ui.js';
++ import { loadCharacterData } from './data.js';
++ import { initUI } from './ui.js';
 
 async function boot() {
   try {
