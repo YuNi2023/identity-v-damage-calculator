@@ -1,0 +1,25 @@
+<body>
+  <div id="app">
+    <!-- 編成選択画面 -->
+    <section id="stage-select">
+      <h2>ステージ選択</h2>
+      <button id="btn-joseph">ジョゼフ戦</button>
+      <button id="btn-hermit">隠者戦</button>
+    </section>
+
+    <!-- サバイバー編成画面 -->
+    <section id="survivor-setup" style="display:none;">
+      <h2>サバイバー編成</h2>
+      <div id="survivor-list"></div>
+      <button id="btn-start">試合開始</button>
+    </section>
+
+    <!-- ダメージ計算画面 -->
+    <section id="battle-screen" style="display:none;">
+      <h2 id="battle-title">ダメージ計算</h2>
+      <div id="survivor-status"></div>
+      <div id="controls"></div>
+    </section>
+  </div>
+  <script type="module" src="js/main.js"></script>
+</body>
