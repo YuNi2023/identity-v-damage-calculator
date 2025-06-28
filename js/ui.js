@@ -91,7 +91,7 @@ export function initBattleUI(stageKey, data) {
   // --- 共通部分 ---
   initCommonBattleUI(data);
 
-  // --- ステージ固有ギミック呼び出し ---
+  // --- ジョゼフ or 隠者 を呼び分け ---
   if (stageKey === 'joseph') {
     initJosephUI(data);
   } else if (stageKey === 'hermit') {
@@ -115,15 +115,14 @@ function initCommonBattleUI(data) {
 
   // 各サバイバーのステータス UI を生成
   selected.forEach(key => {
-    const sv = data.survivors[key];
     const wrapper = document.createElement('div');
     wrapper.classList.add('sv-wrapper');
     wrapper.id        = `sv-${key}`;
-    wrapper.currentDP = 0;
+    wrapper.currentDP = 0;  // 現実世界DP
 
     // 名前表示
     const nameEl = document.createElement('h3');
-    nameEl.textContent = sv.name;
+    nameEl.textContent = data.survivors[key].name;
     wrapper.appendChild(nameEl);
 
     // DPバー
@@ -133,60 +132,111 @@ function initCommonBattleUI(data) {
     wrapper.appendChild(bar);
 
     // 通常攻撃ボタン
-    const btnNormal = document.createElement('button');
-    btnNormal.textContent = '通常攻撃';
-    btnNormal.addEventListener('click', () => {
+    const btnN = document.createElement('button');
+    btnN.textContent = '通常攻撃';
+    btnN.addEventListener('click', () => {
       const dp = calcAttackDP(data.dpMap['1.0'], false);
       wrapper.currentDP = Math.min(100, wrapper.currentDP + dp);
       bar.style.width   = `${wrapper.currentDP}%`;
     });
-    wrapper.appendChild(btnNormal);
+    wrapper.appendChild(btnN);
 
     // 恐怖の一撃ボタン
-    const btnFear = document.createElement('button');
-    btnFear.textContent = '恐怖の一撃';
-    btnFear.addEventListener('click', () => {
+    const btnF = document.createElement('button');
+    btnF.textContent = '恐怖の一撃';
+    btnF.addEventListener('click', () => {
       const dp = calcAttackDP(data.dpMap['1.0'], true);
       wrapper.currentDP = Math.min(100, wrapper.currentDP + dp);
       bar.style.width   = `${wrapper.currentDP}%`;
     });
-    wrapper.appendChild(btnFear);
+    wrapper.appendChild(btnF);
 
     statusDiv.appendChild(wrapper);
   });
 }
 
 /**
- * ジョゼフ戦固有 UI （写真世界ギミックのスケルトン）
+ * ジョゼフ戦固有 UI （写真世界ギミック）
  */
 function initJosephUI(data) {
-  const statusDiv = document.getElementById('survivor-status');
+  const controls = document.getElementById('controls');
+  controls.innerHTML = '';
 
-  // 写真世界発動ボタン
-  const btnPhoto = document.createElement('button');
-  btnPhoto.textContent = '写真世界発動';
-  statusDiv.parentNode.insertBefore(btnPhoto, statusDiv.nextSibling);
+  // 写真世界発動
+  const btnActivate = document.createElement('button');
+  btnActivate.textContent = '写真世界発動';
+  controls.appendChild(btnActivate);
 
-  btnPhoto.addEventListener('click', () => {
-    // TODO: 各 wrapper に photoDP を追加 & photo-bar 描画
-    // TODO: 写真世界用攻撃ボタン・崩壊ボタンをここに生成
+  btnActivate.addEventListener('click', () => {
+    controls.innerHTML = '';
+
+    // 各キャラに photoDP と photo-bar を追加
+    const wrappers = Array.from(document.querySelectorAll('.sv-wrapper'));
+    wrappers.forEach(wrapper => {
+      wrapper.photoDP = 0;
+      const photoBar = document.createElement('div');
+      photoBar.classList.add('photo-bar');
+      photoBar.style.width = '0%';
+      wrapper.appendChild(photoBar);
+    });
+
+    // 写真世界用通常攻撃ボタン
+    const btnN = document.createElement('button');
+    btnN.textContent = '写真世界 通常攻撃';
+    controls.appendChild(btnN);
+    btnN.addEventListener('click', () => {
+      wrappers.forEach(wrapper => {
+        const dp = calcAttackDP(data.dpMap['1.5'], false);
+        wrapper.photoDP = Math.min(100, wrapper.photoDP + dp);
+        wrapper.querySelector('.photo-bar').style.width = `${wrapper.photoDP}%`;
+      });
+    });
+
+    // 写真世界用恐怖の一撃ボタン
+    const btnF = document.createElement('button');
+    btnF.textContent = '写真世界 恐怖の一撃';
+    controls.appendChild(btnF);
+    btnF.addEventListener('click', () => {
+      wrappers.forEach(wrapper => {
+        const dp = calcAttackDP(data.dpMap['1.5'], true);
+        wrapper.photoDP = Math.min(100, wrapper.photoDP + dp);
+        wrapper.querySelector('.photo-bar').style.width = `${wrapper.photoDP}%`;
+      });
+    });
+
+    // 写真世界崩壊ボタン
+    const btnCollapse = document.createElement('button');
+    btnCollapse.textContent = '写真世界崩壊';
+    controls.appendChild(btnCollapse);
+    btnCollapse.addEventListener('click', () => {
+      wrappers.forEach(wrapper => {
+        const real = wrapper.currentDP;
+        const photo = wrapper.photoDP;
+        const collapsed = calcJosephCollapse(real, photo);
+        wrapper.currentDP = collapsed;
+        // DPバー更新
+        const dpBar = wrapper.querySelector('.dp-bar');
+        dpBar.style.width = `${collapsed}%`;
+        // photo-bar を削除
+        wrapper.removeChild(wrapper.querySelector('.photo-bar'));
+      });
+      // 写真世界操作ボタン群クリア
+      controls.innerHTML = '';
+    });
   });
 }
 
 /**
- * 隠者戦固有 UI （電荷分配ギミックのスケルトン）
+ * 隠者戦固有 UI （まだ未実装）
  */
 function initHermitUI(data) {
-  const statusDiv = document.getElementById('survivor-status');
+  const controls = document.getElementById('controls');
+  controls.innerHTML = '';
 
-  // 分配攻撃ボタン
-  const btnShare = document.createElement('button');
-  btnShare.textContent = 'ハンター攻撃';
-  statusDiv.parentNode.insertBefore(btnShare, statusDiv.nextSibling);
+  const btnAttack = document.createElement('button');
+  btnAttack.textContent = 'ハンター攻撃';
+  controls.appendChild(btnAttack);
 
-  btnShare.addEventListener('click', () => {
-    // TODO: Electrode 色取得 → グループ分け → calcHermitShare → DP更新
-  });
+  // TODO: 電荷付与・分配ロジックをここに実装
+  btnAttack.addEventListener('click', () => {});
 }
-
-// ※ このファイルは「feature-phase7-gimmick」ブランチ上で編集してください
