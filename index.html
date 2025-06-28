@@ -1,25 +1,17 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>第五人格 ダメージ計算ツール</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- favicon の 404 を消したい場合だけ追加 -->
+  <link rel="icon" href="data:," />
+</head>
 <body>
-  <div id="app">
-    <!-- 編成選択画面 -->
-    <section id="stage-select">
-      <h2>ステージ選択</h2>
-      <button id="btn-joseph">ジョゼフ戦</button>
-      <button id="btn-hermit">隠者戦</button>
-    </section>
+  <div id="app"></div>
 
-    <!-- サバイバー編成画面 -->
-    <section id="survivor-setup" style="display:none;">
-      <h2>サバイバー編成</h2>
-      <div id="survivor-list"></div>
-      <button id="btn-start">試合開始</button>
-    </section>
-
-    <!-- ダメージ計算画面 -->
-    <section id="battle-screen" style="display:none;">
-      <h2 id="battle-title">ダメージ計算</h2>
-      <div id="survivor-status"></div>
-      <div id="controls"></div>
-    </section>
-  </div>
+  <!-- ここだけ。data.js/ui.js は import 経由で読み込む -->
   <script type="module" src="js/main.js"></script>
 </body>
+</html>
