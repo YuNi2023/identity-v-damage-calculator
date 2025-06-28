@@ -1,0 +1,32 @@
+/* css/style.css */
+
+/* 全体 */
+body {
+  font-family: sans-serif;
+  padding: 16px;
+}
+section {
+  margin-bottom: 24px;
+}
+
+/* 編成画面 */
+#survivor-list label {
+  margin-right: 8px;
+}
+
+/* バトル画面用（フェーズ5以降） */
+.sv-wrapper {
+  border: 1px solid #ddd;
+  padding: 8px;
+  margin-bottom: 8px;
+  width: 200px;
+}
+.dp-bar {
+  height: 16px;
+  background: #f66;
+  margin: 4px 0;
+  transition: width 0.3s ease;
+}
+.sv-wrapper button {
+  margin-right: 4px;
+}
