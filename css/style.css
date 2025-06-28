@@ -14,7 +14,18 @@ section {
   margin-right: 8px;
 }
 
-/* バトル画面用（フェーズ5以降） */
+/* カウントダウン表示 */
+#start-countdown {
+  text-align: center;
+  font-size: 2em;
+}
+
+/* ステージ選択 */
+#stage-select button {
+  margin-right: 8px;
+}
+
+/* バトル画面用 */
 .sv-wrapper {
   border: 1px solid #ddd;
   padding: 8px;
@@ -29,4 +40,18 @@ section {
 }
 .sv-wrapper button {
   margin-right: 4px;
+}
+
+/* 写真世界DPバー */
+.photo-bar {
+  height: 16px;
+  background: #c00;
+  margin: 4px 0;
+  transition: width 0.3s ease;
+}
+
+/* コントロールボタン配置調整 */
+#controls button {
+  margin-right: 8px;
+  margin-bottom: 8px;
 }
