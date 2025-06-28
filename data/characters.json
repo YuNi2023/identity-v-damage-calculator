@@ -1,0 +1,77 @@
+{
+  "hunters": {
+    "joseph": {
+      "name": "ジョゼフ",
+      "baseAttackDP": 50,
+      "timeOverlay": { "multiplier": 1.5 },
+      "photoWorld": { "durationSec": 60, "cooldownAfterEndSec": 45 }
+    },
+    "hermit": {
+      "name": "隠者",
+      "baseAttackDP": 60,
+      "share": { "damageDP": 60 }
+    }
+  },
+  "survivors": {
+    "doctor": { "name": "医師", "healSelfDPperTick": 25, "healOtherDPperTick": 50 },
+    "mechanic": { "name": "機械技師", "dollDurabilityDP": 50 },
+    "perfumer": { "name": "調香師", "perfumeWindowSec": 5, "invulnerableBelowDP": 100 },
+    "mercenary": { "name": "傭兵", "toughPerDPsec": 8 },
+    "bartender": { "name": "バーメイド", "drinkDurationSec": 19, "healDPtotal": 100 },
+    "psychologist": {
+      "name": "心理学者",
+      "emotionTransferDP": 50,
+      "stressRecoveryDPtotal": 50,
+      "stressRecoverySec": 32
+    },
+    "puppeteer": { "name": "人形師", "louisTriggerDP": 25, "louisShieldDP": 75 },
+    "meteorologist": { "name": "気象学者", "calmPerSec": 7, "calmToHealDP": 50 },
+
+    "gardener":        { "name": "庭師" },
+    "lawyer":          { "name": "弁護士" },
+    "thief":           { "name": "泥棒" },
+    "explorer":        { "name": "冒険家" },
+    "forward":         { "name": "オフェンス" },
+    "cowboy":          { "name": "カウボーイ" },
+    "magician":        { "name": "マジシャン" },
+    "airforce":        { "name": "空軍" },
+    "lucky_boy":       { "name": "幸運児" },
+    "priest":          { "name": "祭司" },
+    "minds_eye":       { "name": "心眼" },
+    "dancer":          { "name": "踊り子" },
+    "fortune_teller":  { "name": "占い師" },
+    "embalmer":        { "name": "納棺師" },
+    "prospector":      { "name": "探鉱者" },
+    "witch":           { "name": "呪術師" },
+    "savage":          { "name": "野人" },
+    "navigator":       { "name": "一等航海士" },
+    "acrobat":         { "name": "曲芸師" },
+    "postman":         { "name": "ポストマン" },
+    "gravekeeper":     { "name": "墓守" },
+    "prisoner":        { "name": "囚人" },
+    "entomologist":    { "name": "昆虫学者" },
+    "painter":         { "name": "画家" },
+    "batsman":         { "name": "バッツマン" },
+    "toy_maker":       { "name": "玩具職人" },
+    "patient_survivor":{ "name": "患者" },
+    "novelist":        { "name": "小説家" },
+    "maiden":          { "name": "少女" },
+    "crying_clown":    { "name": "泣きピエロ" },
+    "professor":       { "name": "教授" },
+    "antique_dealer":  { "name": "骨董商" },
+    "composer":        { "name": "作曲家" },
+    "reporter":        { "name": "記者" },
+    "aircraft_engineer": { "name": "航空エンジニア" },
+    "cheerleader":     { "name": "応援団" },
+    "fire_investigator":{ "name": "火災調査員" },
+    "knight":           { "name": "騎士" },
+    "archer":           { "name": "弓使い" },
+    "escape_master":    { "name": "脱出マスター" }
+  },
+  "dpMap": {
+    "1.0": 50,
+    "1.2": 60,
+    "1.5": 75,
+    "2.0": 100
+  }
+}
