@@ -1,40 +1,104 @@
 // js/ui.js
 
+import {
+  calcAttackDP,
+  calcJosephCollapse,
+  calcHermitShare
+} from './damageCalculator.js';
+
 export function initUI(data) {
-  const btnJoseph = document.getElementById('btn-joseph');
-  const btnHermit = document.getElementById('btn-hermit');
-  const stageSelect = document.getElementById('stage-select');
-  const setup = document.getElementById('survivor-setup');
-  const battle = document.getElementById('battle-screen');
+  // ── ステージ選択要素 ──
+  const btnJoseph  = document.getElementById('btn-joseph');
+  const btnHermit  = document.getElementById('btn-hermit');
+  const stageSelect= document.getElementById('stage-select');
+  const setup      = document.getElementById('survivor-setup');
+  const battle     = document.getElementById('battle-screen');
 
-  btnJoseph.addEventListener('click', () => {
-    stageSelect.style.display = 'none';
-    setup.style.display = 'block';
-    // TODO: ジョゼフ用UI初期化
-  });
-
-  btnHermit.addEventListener('click', () => {
-    stageSelect.style.display = 'none';
-    setup.style.display = 'block';
-    // TODO: 隠者用UI初期化
-  });
-
-  document.getElementById('btn-start').addEventListener('click', () => {
-    setup.style.display = 'none';
-    battle.style.display = 'block';
-    // TODO: 戦闘画面初期化
-  });
-
-  // サバイバー編成リストを生成（例としてすべての survivors を列挙）
+  // ── サバイバー編成リスト生成 ──
   const list = document.getElementById('survivor-list');
   Object.entries(data.survivors).forEach(([key, sv]) => {
-    const cb = document.createElement('input');
-    cb.type = 'checkbox';
-    cb.id = key;
-    cb.value = key;
+    const cb    = document.createElement('input');
+    cb.type     = 'checkbox';
+    cb.id       = key;
+    cb.value    = key;
     const label = document.createElement('label');
-    label.htmlFor = key;
+    label.htmlFor  = key;
     label.textContent = sv.name;
     list.append(cb, label, document.createElement('br'));
+  });
+
+  // ── ステージ選択ボタン ──
+  btnJoseph.addEventListener('click', () => {
+    stageSelect.style.display = 'none';
+    setup.style.display       = 'block';
+    setup.dataset.stage       = 'joseph';
+  });
+  btnHermit.addEventListener('click', () => {
+    stageSelect.style.display = 'none';
+    setup.style.display       = 'block';
+    setup.dataset.stage       = 'hermit';
+  });
+
+  // ── 試合開始ボタン ──
+  document.getElementById('btn-start').addEventListener('click', () => {
+    setup.style.display  = 'none';
+    battle.style.display = 'block';
+
+    // タイトル表示
+    const title = document.getElementById('battle-title');
+    title.textContent = setup.dataset.stage === 'joseph' ? 'ジョゼフ戦' : '隠者戦';
+
+    // サバイバー状態エリア初期化
+    const statusDiv = document.getElementById('survivor-status');
+    statusDiv.innerHTML = '';
+
+    // 選択されたサバイバーキーの配列
+    const selected = Array.from(
+      document.querySelectorAll('#survivor-list input[type=checkbox]:checked')
+    ).map(cb => cb.value);
+
+    // 各サバイバーの UI を生成
+    selected.forEach(key => {
+      const sv = data.survivors[key];
+
+      // コンテナ
+      const wrapper = document.createElement('div');
+      wrapper.classList.add('sv-wrapper');
+      wrapper.id = `sv-${key}`;
+      wrapper.currentDP = 0;  // 現在のDP
+
+      // 名前表示
+      const nameEl = document.createElement('h3');
+      nameEl.textContent = sv.name;
+      wrapper.appendChild(nameEl);
+
+      // DPバー
+      const bar = document.createElement('div');
+      bar.classList.add('dp-bar');
+      bar.style.width = '0%';
+      wrapper.appendChild(bar);
+
+      // 通常攻撃ボタン
+      const btnNormal = document.createElement('button');
+      btnNormal.textContent = '通常攻撃';
+      btnNormal.addEventListener('click', () => {
+        const dp = calcAttackDP(data.dpMap['1.0'], false);
+        wrapper.currentDP = Math.min(100, wrapper.currentDP + dp);
+        bar.style.width   = `${wrapper.currentDP}%`;
+      });
+      wrapper.appendChild(btnNormal);
+
+      // 恐怖の一撃ボタン
+      const btnFear = document.createElement('button');
+      btnFear.textContent = '恐怖の一撃';
+      btnFear.addEventListener('click', () => {
+        const dp = calcAttackDP(data.dpMap['1.0'], true);
+        wrapper.currentDP = Math.min(100, wrapper.currentDP + dp);
+        bar.style.width   = `${wrapper.currentDP}%`;
+      });
+      wrapper.appendChild(btnFear);
+
+      statusDiv.appendChild(wrapper);
+    });
   });
 }
